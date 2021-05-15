@@ -1,5 +1,7 @@
 # CMR Deep learning reconstruction
 
+The repository is part of the [ISMRM member-initiated tutorial Cardiovascular MR: From Theory to Practice](https://ismrm-mit-cmr.github.io/). 
+
 ## Tutorials
 
 The repository hosts some example codes to perform MR image reconstruction with deep learning architectures. The code runs on the [MNIST](http://yann.lecun.com/exdb/mnist) database. Since MNIST only contains real-valued images, phase data is simulated to provide complex-valued inputs. We showcase a comparison of denoising networks (*denoising*) and unrolled reconstruction networks (*physics-based*). Pure real-valued processing (*real*) is compared against complex-valued processing as complex-valued operations (*complex*) or 2-channel real-valued operations (*2chreal*). Respective complex-valued operations and data consistency layers are provided.
