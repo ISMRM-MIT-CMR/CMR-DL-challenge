@@ -1,14 +1,27 @@
 # CMR Deep learning reconstruction
 
 ## Tutorials
+
+The repository hosts some example codes to perform MR image reconstruction with deep learning architectures. The code runs on the [MNIST](http://yann.lecun.com/exdb/mnist) database. Since MNIST only contains real-valued images, phase data is simulated to provide complex-valued inputs. We showcase a comparison of denoising networks (*denoising*) and unrolled reconstruction networks (*physics-based*). Pure real-valued processing (*real*) is compared against complex-valued processing as complex-valued operations (*complex*) or 2-channel real-valued operations (*2chreal*). Respective complex-valued operations and data consistency layers are provided.
+
+Please refer to the corresponding book chapter if you are using code of this tutorial:
+```bibtex
+@incollection{HammernikKuestnerRueckertMLRecon2021,
+    title={Machine Learning For MRI Reconstruction},
+    author={Kerstin Hammernik and Thomas K\"ustner and Daniel Rueckert},
+    booktitle={MRI Reconstruction: Theory, Methods and Applications},
+    year={2021 (in Preparation)},
+}
+```
+
 - Image Denoising
   - Real-valued denoising (magnitude images) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/tutorial_denoising_real.ipynb)
   - Complex-valued denoising, where real and imaginary part are stored in separate channels. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/tutorial_denoising_2chreal.ipynb)
   - Complex-valued denoising, with complex convolutions and complex activations [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/tutorial_denoising_complex.ipynb)
 - Image Reconstruction with complex convolutions and complex activations  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/tutorial_reconstruction_complex.ipynb)
-
-
 - Complex Activation Functions [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/tutorial_complex_activations.ipynb)
+
+
 
 ## Challenge: Deep Plug-and-Play Prior [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/challenge_plug_and_play.ipynb)
 
