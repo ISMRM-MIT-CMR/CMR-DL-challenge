@@ -40,7 +40,7 @@ The dataset `subject1.h5`, containing fully sampled k-space, can be used for qua
 We are looking forward to your creative submissions! Happy coding!
 
 ### Submission
-**Deadline:** Wednesday 19th of May 2021, 11:59 am UTC
+**Deadline:** Wednesday 20th of May 2021, 11:59 am UTC
 
 **Template:** Please fill out the [template](https://ismrm-mit-cmr.github.io/template/ISMRM_MIT_CMR_ReconChallenge.potx) slide with
 
