@@ -39,7 +39,8 @@ The dataset `subject1.h5`, containing fully sampled k-space, can be used for qua
 
 We are looking forward to your creative submissions! Happy coding!
 
-### Submission
+### Submission [CLOSED]
+
 **Deadline:** Wednesday 20th of May 2021, 11:59 am UTC
 
 **Template:** Please fill out the [template](https://ismrm-mit-cmr.github.io/template/ISMRM_MIT_CMR_ReconChallenge.potx) slide with
@@ -47,8 +48,11 @@ We are looking forward to your creative submissions! Happy coding!
 - Provide a short abstract (max. 150 words) about your solution
 - Figure: Provide an overview figure of your solution
 
-**Submission:** Please fill out the [submission form](https://docs.google.com/forms/d/e/1FAIpQLScwdz94oFSCMdp5QICPLu1E1ZyZuy0k1ahWJ1BBjGjCtnikvA/viewform?usp=sf_link) and upload in this form:
+**Submission:** Please fill out the submission form and upload in this form:
 
 - Template: Containing your abstract and overview figure
 - Results: Your Jupyter notebook as `*.ipynb` containing your solution
 
+
+### Solution 
+Exemplary solution of challenge code [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ISMRM-MIT-CMR/CMR-DL-challenge/blob/master/challenge_plug_and_play_sample_solution.ipynb)
