@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import scipy.stats as scs
+import unittest
 
 # N-dimensional FFT (considering ifftshift/fftshift operations)
 def fftnc(x, axes=(0, 1)):
@@ -122,16 +123,25 @@ class ComplexDataGeneratorMNIST(DataGeneratorMNIST):
         'Data preparation'
         super()._prepare_data()
         # simulate some phase information
-        phase = self._normalize(self.img[::-1], 0, 2*np.pi)
-        self.img = self.img.astype(np.complex64) * np.exp(1j * phase)
+        # !ATTENTION! Some weird numerical errors occur...
+        # Set values in magn phase around 0 to eps=1e-12
+        eps = 1e-12
+        phase = self._normalize(self.img[::-1], -np.pi, np.pi)
+        phase = np.sign(phase)*np.maximum(phase, eps)
+        # magn = self._normalize(self.img)
+        magn = np.maximum(self.img, eps)
+        self.img = magn * np.exp(1j * phase)
         self.img = self.img.astype(self.dtype)
         
     def _normalize(self, x, min=0, max=1):
         'Normalization'
         # only scale the magnitude
-        xabs = np.abs(x)
-        assert np.max(xabs) > 1e-9
-        return ((xabs - np.min(x)) / (np.max(x) - np.min(x)) * (max - min) + min) * np.exp(1j * np.angle(x))
+        if np.iscomplexobj(x):
+            xabs = np.abs(x)
+            normed_magn = (xabs - np.min(xabs)) / (np.max(xabs) - np.min(xabs)) * (max - min) + min
+            return normed_magn * np.exp(1j * np.angle(x))
+        else:
+            return (x - np.min(x)) / (np.max(x) - np.min(x)) * (max - min) + min
 
     def _noisy(self, x):
         'Complex-valued noise simulation'
@@ -155,7 +165,7 @@ class ComplexRawDataGeneratorMNIST(ComplexDataGeneratorMNIST):
         'Data preparation'
         super()._prepare_data()
         # normalize BEFORE creating the k-space
-        self.img = self._normalize(self.img)
+        # self.img = self._normalize(self.img)
         # generate k-space
         self.kspace = fftnc(self.img, axes=(1,2))
 
@@ -220,3 +230,37 @@ class ComplexRawDataGeneratorMNIST(ComplexDataGeneratorMNIST):
             noisy[i, ..., 0] = ifftnc(kspace[i,], axes=(0,1))
 
         return [noisy, kspace, mask], target
+
+class TestDataGenerator(unittest.TestCase):
+    def testComplex(self):
+        import tensorflow as tf
+        import numpy as np
+        import matplotlib.pyplot as plt
+        
+        # initialize some parameters
+        accelerations = [2, 4]  # simulate retrospectively accelerations in the range of e.g. 2x to 4x
+        accel_type = 'PI'  # simulated undersampling strategy: 'PI' = Parallel Imaging, 'CS' = Compressed Sensing
+        center = 0.1  # percent of fully sampled central region along ky phase-encoding, e.g. 0.1 := floor(10% * 28) ky center lines = 2 ky center lines 
+        test_generator = ComplexRawDataGeneratorMNIST(batch_size=1, 
+                                            accelerations=accelerations,
+                                            accel_type=accel_type,
+                                            center=center,
+                                            shuffle=False,
+                                            mode='test')
+
+        inputs, outputs = test_generator.__getitem__(0)
+        img = outputs[0,...,0]
+
+        plt.figure()
+        plt.subplot(1,2,1)
+        plt.imshow(np.abs(img))
+        plt.title('Magnitude')
+        plt.subplot(1,2,2)
+        plt.imshow(np.angle(img))
+        plt.title('Phase')
+        plt.savefig('test_complex.png')
+        
+                                            
+    
+if __name__ == "__main__":
+    unittest.test()
