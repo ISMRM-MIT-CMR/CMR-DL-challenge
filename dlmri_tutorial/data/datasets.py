@@ -165,7 +165,8 @@ class ComplexRawDataGeneratorMNIST(ComplexDataGeneratorMNIST):
         'Data preparation'
         super()._prepare_data()
         # normalize BEFORE creating the k-space
-        # self.img = self._normalize(self.img)
+        self.img = self._normalize(self.img)
+
         # generate k-space
         self.kspace = fftnc(self.img, axes=(1,2))
 
@@ -258,7 +259,32 @@ class TestDataGenerator(unittest.TestCase):
         plt.subplot(1,2,2)
         plt.imshow(np.angle(img))
         plt.title('Phase')
-        plt.savefig('test_complex.png')
+        plt.savefig('test_complex_reconstruction.png')
+        self.assertTrue(np.abs(np.max(np.abs(img)) - 1) <= 1e-6)
+
+class TestDataGeneratorDenoising(unittest.TestCase):
+    def testComplex(self):
+        import tensorflow as tf
+        import numpy as np
+        import matplotlib.pyplot as plt
+        
+        # initialize some parameters
+        test_generator = ComplexDataGeneratorMNIST(batch_size=1, 
+                                                    shuffle=False,
+                                                    mode='test')
+
+        inputs, outputs = test_generator.__getitem__(0)
+        img = outputs[0,...,0]
+
+        plt.figure()
+        plt.subplot(1,2,1)
+        plt.imshow(np.abs(img))
+        plt.title('Magnitude')
+        plt.subplot(1,2,2)
+        plt.imshow(np.angle(img))
+        plt.title('Phase')
+        plt.savefig('test_complex_denoising.png')
+        self.assertTrue(np.abs(np.max(np.abs(img)) - 1) <= 1e-6)
         
                                             
     
